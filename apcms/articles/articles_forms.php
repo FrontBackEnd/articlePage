@@ -8,48 +8,64 @@ switch($_POST['action']){
 			$result_cat = mysqli_query($conn,$sql_cat);
 			
 			echo '
+				<h1 class="text-center">Add article</h1>
 				<form method="POST" action="">
 					
-					<p>Title</p>
-					<input type="text" name="title" required="required">
-										
-					<p>Intro text</p>
-					<textarea name="intro_text" required="required"></textarea>
+					<div class="form-group">
+						<label for="title">Title</label>
+						<input id="title" type="text" name="title" required="required" class="form-control">
+					</div>
+						
+					<div class="form-group">
+						<label for="intro_text">Intro text</label>
+						<textarea name="intro_text" required="required" class="form-control"></textarea>
+					</div>
 					
-					<p>Content</p>
-					<textarea name="content" required="required"></textarea>
+					<div class="form-group">
+						<label for="content">Content</label>
+						<textarea name="content" required="required" class="form-control"></textarea>
+					</div>
 					
-					<p>Category</p>
-					<select name="category_id">
-						<option value="0">Not selected</option>
-					';
-					if(mysqli_num_rows($result_cat)){
-						while($categ = mysqli_fetch_assoc($result_cat)){
-							echo '<option value="'.$categ['id'].'">'.$categ['title'].'</option>';
-						}
-					}
-			echo	'
-					</select>
+					<div class="form-group">
+						<label for="category_id">Category</label>
+						<select name="category_id" class="form-control">
+							<option value="0">Not selected</option>
+							';
+							if(mysqli_num_rows($result_cat)){
+								while($categ = mysqli_fetch_assoc($result_cat)){
+									echo '<option value="'.$categ['id'].'">'.$categ['title'].'</option>';
+								}
+							}
+				echo	'
+						</select>
+					</div>
 					
-					<p>Active</p>
-					<select name="status">
-					';
-					foreach($article_status AS $key => $name){
-						echo '<option value="'.$key.'">'.$name.'</option>';
-					}
-			echo'
-					</select>
 					
-					<p>Extract</p>
-					<select name="extract">
-					';
+					<div class="form-group">
+						<label for="status">Active</label>
+						<select name="status" class="form-control">
+							<option value="0">Not selected</option>
+							';
+							foreach($article_status AS $key => $name){
+								echo '<option value="'.$key.'">'.$name.'</option>';
+							}
+				echo	'
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label for="extract">Extract</label>
+						<select name="extract" class="form-control">
+							<option value="0">Not selected</option>
+							';
 					foreach($article_extract AS $key => $name){
 						echo '<option value="'.$key.'">'.$name.'</option>';
 					}
-			echo'
-					</select>
+				echo	'
+						</select>
+					</div>
 					
-					<p><input type="submit" name="save_article" value="ADD"></p>
+					<input type="submit" name="save_article" value="ADD" class="btn btn-success">
 				</form>
 			';
 		
@@ -68,61 +84,77 @@ switch($_POST['action']){
 				$sql_cat = " SELECT * FROM `ap_categories` WHERE `status` = '1' ORDER BY `position`";
 				$result_cat = mysqli_query($conn,$sql_cat);	
 				
-				echo '
-					<form method="POST" action="">
-						<input type="hidden" name="article_id" value="'.$id.'">
+				
+			echo '
+				<h1 class="text-center">Add article</h1>
+				<form method="POST" action="">
+					<input type="hidden" name="article_id" value="'.$id.'">
+					
+					<div class="form-group">
+						<label for="title">Title</label>
+						<input id="title" type="text" name="title" value="'.$row['title'].'" required="required" class="form-control">
+					</div>
 						
-						<p>Title</p>
-						<input type="text" name="title" value="'.$row['title'].'">
-						
-						<p>Intro text</p>
-						<textarea name="intro_text" required="required">'.$row['intro_text'].'</textarea>
-						
-						<p>Content</p>
-						<textarea name="content">'.$row['content'].'</textarea>
-						
-						<p>Category</p>
-						<select name="category_id">
+					<div class="form-group">
+						<label for="intro_text">Intro text</label>
+						<textarea name="intro_text" required="required" class="form-control">'.$row['intro_text'].'</textarea>
+					</div>
+					
+					<div class="form-group">
+						<label for="content">Content</label>
+						<textarea name="content" required="required" class="form-control">'.$row['content'].'</textarea>
+					</div>
+					
+					<div class="form-group">
+						<label for="category_id">Category</label>
+						<select name="category_id" class="form-control">
 							<option value="0">Not selected</option>
-						';
-						if(mysqli_num_rows($result_cat)){
-							while($categ = mysqli_fetch_assoc($result_cat)){
-								if($row['category_id'] == $categ['id']) $sel = ' selected="selected"'; 
-								else $sel = '';
-								
-								echo '<option value="'.$categ['id'].'"'.$sel.'>'.$categ['title'].'</option>';
+							';
+							if(mysqli_num_rows($result_cat)){
+								while($categ = mysqli_fetch_assoc($result_cat)){
+									if($row['category_id'] == $categ['id']) $sel = ' selected="selected"'; 
+									else $sel = '';
+									
+									echo '<option value="'.$categ['id'].'"'.$sel.'>'.$categ['title'].'</option>';
+								}
 							}
-						}
 				echo	'
 						</select>
-						
-						<p>Active</p>
-						<select name="status">
-						';
-						foreach($article_status AS $key => $name){
-							if($key == $row['status']) $sel = ' selected="selected"';
-							else $sel = '';
-							
-							echo '<option value="'.$key.'"'.$sel.'>'.$name.'</option>';
-						}
-				echo'
+					</div>
+					
+					
+					<div class="form-group">
+						<label for="status">Active</label>
+						<select name="status" class="form-control">
+							<option value="0">Not selected</option>
+							';
+							foreach($article_status AS $key => $name){
+								if($key == $row['status']) $sel = ' selected="selected"';
+								else $sel = '';
+								
+								echo '<option value="'.$key.'"'.$sel.'>'.$name.'</option>';
+							}
+				echo	'
 						</select>
-						
-						<p>Extract</p>
-						<select name="extract">
-						';
-						foreach($article_extract AS $key => $name){
-							if($key == $row['extract']) $sel = ' selected="selected"';
-							else $sel = '';
-							
-							echo '<option value="'.$key.'"'.$sel.'>'.$name.'</option>';
-						}
-				echo'
+					</div>
+					
+					<div class="form-group">
+						<label for="extract">Extract</label>
+						<select name="extract" class="form-control">
+							<option value="0">Not selected</option>
+							';
+							foreach($article_extract AS $key => $name){
+								if($key == $row['extract']) $sel = ' selected="selected"';
+								else $sel = '';
+								
+								echo '<option value="'.$key.'"'.$sel.'>'.$name.'</option>';
+							}
+				echo	'
 						</select>
-						
-						
-						<p><input type="submit" name="save_article" value="UPDATE"> </p>
-					</form>';
+					</div>
+					
+					<input type="submit" name="save_article" value="UPDATE" class="btn btn-default">
+				</form>';
 				
 			}else echo 'Not found article with ID'.$_POST['article_id'];
 		}
@@ -136,11 +168,11 @@ switch($_POST['action']){
 			
 			$id = $_POST['article_id'];
 			echo '
+				<h1 class="text-center">Do you realy wont to delete this article ?</h1>
 				<form method="POST" action="">
 					<input type="hidden" name="article_id" value="'.$id.'">
-					<p>Do you realy wont to delete this article ?</p>
-					<p><input type="submit" name="save_article" value="DELETE"></p>
-					<p><input type="submit" name="no" value="NO"></p>
+					<input type="submit" name="save_article" value="DELETE" class="btn btn-danger">
+					<input type="submit" name="no" value="NO" class="btn btn-default">
 				</form>';
 			
 		}else echo 'Not found article with ID'.$_POST['article_id'];
