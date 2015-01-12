@@ -26,12 +26,27 @@ require("../database_connect.php");
 		// PRINT
 		if(isset($_SESSION['user']) && !empty($_SESSION['user'])){ 
 		
-			$menu = array(  'users' => 'Users' , 
+			$sql_role = "SELECT `role` FROM `ap_users` WHERE `email` = '".$_SESSION['user']."' LIMIT 1";
+			$result_role = mysqli_query($conn,$sql_role);
+			if(mysqli_num_rows($result_role)){
+				$role = mysqli_fetch_assoc($result_role);
+				$user_role = $role['role'];
+				
+			}else $user_role = '0';
+			
+			$menu = array(  'permission' => 'Permission' , 
+							'users' => 'Users' , 
 							'roles' => 'Roles',
 							'categories' => 'Categories',
 							'articles' => 'Articles'
 						 );
 			
+			foreach($menu AS $cms_part => $name){
+				if(isset($permission[$cms_part]['view']) && !empty($permission[$cms_part]['view']) && !in_array($user_role,$permission[$cms_part]['view'])){
+					unset($menu[$cms_part]);
+				}
+			}
+		 
 			echo '
 				
 				<ul class="nav nav-tabs nav-justified" role="tablist">';
@@ -49,6 +64,8 @@ require("../database_connect.php");
 			if(isset($_GET['menu']) && !empty($_GET['menu'])){
 				switch($_GET['menu']){
 					
+					case 'permission': include("permission/permission_view.php"); break;
+					
 					case 'users': include("users/users_view.php"); break;
 					
 					case 'roles': include("roles/roles_view.php"); break;
@@ -57,6 +74,7 @@ require("../database_connect.php");
 					
 					case 'categories': include("categories/categories_view.php"); break;
 					
+					case 'change_password': include("ap_change_password.php"); break;
 					
 				}
 			}	

@@ -9,6 +9,7 @@ if(isset($_SESSION['user']) && !empty($_SESSION['user'])){
 			<button type="button" class="btn btn-default">
 				<span class="glyphicon glyphicon-user"></span><small style="margin-left:5px;">'.$_SESSION['user'].'</small>
 			</button>
+			<a class="btn btn-info" href="?menu=change_password">Change password</a>
 			<input type="submit" class="btn btn-default" value="LOGOUT" name="user_logout">
 		</form>
 		';

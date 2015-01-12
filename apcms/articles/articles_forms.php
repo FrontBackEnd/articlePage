@@ -9,7 +9,7 @@ switch($_POST['action']){
 			
 			echo '
 				<h1 class="text-center">Add article</h1>
-				<form method="POST" action="">
+				<form method="POST" action="" enctype="multipart/form-data">
 					
 					<div class="form-group">
 						<label for="title">Title</label>
@@ -24,6 +24,11 @@ switch($_POST['action']){
 					<div class="form-group">
 						<label for="content">Content</label>
 						<textarea name="content" required="required" class="form-control"></textarea>
+					</div>
+					
+					<div class="form-group">
+						<label for="file">Image:</label> 
+						<input type="file" name="file" id="file">
 					</div>
 					
 					<div class="form-group">
@@ -87,7 +92,7 @@ switch($_POST['action']){
 				
 			echo '
 				<h1 class="text-center">Add article</h1>
-				<form method="POST" action="">
+				<form method="POST" action="" enctype="multipart/form-data"enctype="multipart/form-data">
 					<input type="hidden" name="article_id" value="'.$id.'">
 					
 					<div class="form-group">
@@ -103,8 +108,20 @@ switch($_POST['action']){
 					<div class="form-group">
 						<label for="content">Content</label>
 						<textarea name="content" required="required" class="form-control">'.$row['content'].'</textarea>
-					</div>
+					</div>';
 					
+					if(isset($row['image']) && !empty($row['image'])) 
+						echo '<p><img src="http://localhost/articlepage.front-back-end.com/apcms/upload/'.$row['image'].'" alt="" style="width:200px;height:150px;"></p>
+							  <p>DELETE IMG<input type="checkbox" name="delete_article_img" value="delete"></p>';
+					else{
+						echo '<div class="form-group">
+								<label for="file">Image:</label> 
+								<input type="file" name="file" id="file">
+							</div>';
+					}
+					
+					
+				echo '	
 					<div class="form-group">
 						<label for="category_id">Category</label>
 						<select name="category_id" class="form-control">
@@ -167,6 +184,7 @@ switch($_POST['action']){
 		if(isset($_POST['article_id']) && !empty($_POST['article_id'])){
 			
 			$id = $_POST['article_id'];
+			
 			echo '
 				<h1 class="text-center">Do you realy wont to delete this article ?</h1>
 				<form method="POST" action="">

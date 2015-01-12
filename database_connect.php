@@ -40,5 +40,27 @@ $users_status = array( '0' => 'No',
 $roles_status	 = array( '0' => 'No',
 					   '1' => 'Yes'
 					  );				  
+					  
+					  
+$permission = array();
+
+$sql_permission = "SELECT * FROM `ap_permission`";
+$result_permission = mysqli_query($conn,$sql_permission);
+
+if(mysqli_num_rows($result_permission)){
+	
+	while($row_permission = mysqli_fetch_assoc($result_permission)){
+		
+		$permission[$row_permission['cms_part']]['view'] = explode(', ',$row_permission['view']);
+		$permission[$row_permission['cms_part']]['add'] = explode(', ',$row_permission['add']);
+		$permission[$row_permission['cms_part']]['update'] = explode(', ',$row_permission['update']);
+		$permission[$row_permission['cms_part']]['delete'] = explode(', ',$row_permission['delete']);
+	}
+	
+}
+
+
+
+					  
 					  		    
 ?>
